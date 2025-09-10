@@ -1,49 +1,55 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import MeetingCard from './MeetingCard'
+import { getMeetings } from '@/lib/meetings'
 
 export default function MeetingList() {
-  // 임시 데이터 - 실제로는 API에서 가져올 데이터
-  const meetings = [
-    {
-      id: 1,
-      title: '제품 개발 팀 회의',
-      date: '2024-03-15',
-      participants: 4,
-      duration: '1시간 30분',
-      description: 'Q1 로드맵 논의 및 주요 기능 개발 우선순위 결정. 새로운 기능 스펙 검토와 일정 조정.',
-      tags: ['제품개발', '로드맵', 'Q1'],
-      status: '완료'
-    },
-    {
-      id: 2,
-      title: '마케팅 전략 검토 회의',
-      date: '2024-03-14',
-      participants: 3,
-      duration: '1시간',
-      description: '디지털 마케팅 캠페인 성과 분석 및 다음 분기 전략 수립. 예산 배분 및 채널별 성과 검토.',
-      tags: ['마케팅', '전략', '분석'],
-      status: '완료'
-    },
-    {
-      id: 3,
-      title: '주간 스탠드업 미팅',
-      date: '2024-03-13',
-      participants: 6,
-      duration: '30분',
-      description: '이번 주 진행사항 공유 및 다음 주 계획 수립. 블로커 이슈 논의 및 계획 방안 모색.',
-      tags: ['스탠드업', '진행사항', '계획'],
-      status: '완료'
-    },
-    {
-      id: 4,
-      title: '분기 성과 리뷰',
-      date: '2024-03-12',
-      participants: 2,
-      duration: '2시간',
-      description: 'Q1 성과 검토 및 Q2 목표 설정. 각 팀별 성과 분석과 개선사항 도출.',
-      tags: ['성과', '리뷰', '분기'],
-      status: '완료'
+  const [meetings, setMeetings] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    async function fetchMeetings() {
+      try {
+        setLoading(true)
+        const data = await getMeetings()
+        setMeetings(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchMeetings()
+  }, [])
+
+  // 로딩 상태
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span className="ml-2 text-gray-600">회의록을 불러오는 중...</span>
+      </div>
+    )
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-red-600 mb-4">⚠️ 회의록을 불러오는데 실패했습니다</div>
+        <p className="text-gray-600 mb-4">{error}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        >
+          다시 시도
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -63,7 +69,7 @@ export default function MeetingList() {
       {/* 회의록 카드 그리드 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {meetings.map((meeting) => (
-          <MeetingCard key={meeting.id} meeting={meeting} />
+          <MeetingCard key={meeting.script_id} meeting={meeting} />
         ))}
       </div>
     </div>
