@@ -38,10 +38,10 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: './Frontend/package-lock.json'
+          cache-dependency-path: './package-lock.json'
 
       - name: Install dependencies and build
-        working-directory: ./Frontend
+        working-directory: ./
         run: |
           npm ci
           npm run build
@@ -59,8 +59,8 @@ jobs:
       - name: Build and push (immutable tag)
         uses: docker/build-push-action@v6
         with:
-          context: ./Frontend
-          file: ./Frontend/Dockerfile
+          context: ./
+          file: ./Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
