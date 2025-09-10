@@ -1,1 +1,9 @@
-// 메인 페이지 - 챗봇 사용
+import AudioUpload from '../components/chat/Audioupload';
+
+export default function Home() {
+  return (
+    <div>
+      <AudioUpload />
+    </div>
+  );
+}
