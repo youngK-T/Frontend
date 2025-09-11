@@ -135,4 +135,3 @@ export default function ChatBot() {
     </div>
   );
 }
-// 챗봇 메인 컴포넌트
