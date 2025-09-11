@@ -108,7 +108,7 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
               isDragOver 
-                ? 'border-blue-500 bg-blue-50' 
+                ? 'border-gray-500 bg-gray-50' 
                 : 'border-gray-300 hover:border-gray-400'
             }`}
             onDragOver={handleDragOver}
@@ -125,9 +125,9 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
             <p className="text-xs text-gray-500">WAV, MP3, M4A, AAC (최대 100MB)</p>
             
             {selectedFile && (
-              <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded">
-                <p className="text-green-800 text-sm font-medium">✓ {selectedFile.name}</p>
-                <p className="text-green-600 text-xs">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+              <div className="mt-3 p-2 bg-gray-50 border border-gray-200 rounded">
+                <p className="text-gray-800 text-sm font-medium">✓ {selectedFile.name}</p>
+                <p className="text-gray-600 text-xs">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
               </div>
             )}
           </div>
@@ -152,7 +152,7 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
             onChange={(e) => setMeetingTitle(e.target.value)}
             placeholder="예: 제품 개발 팀 회의, 주간 스탠드업 등"
             maxLength={100}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
           />
           <p className="text-xs text-gray-500 mt-1">
             ({meetingTitle.length}/100자)
@@ -172,7 +172,7 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
             disabled={!selectedFile || !meetingTitle.trim()}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedFile && meetingTitle.trim()
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                ? 'bg-gray-600 text-white hover:bg-gray-700'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >

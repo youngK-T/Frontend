@@ -37,7 +37,7 @@ export default function MeetingCard({ meeting, isSelected, onSelect }) {
 
   return (
     <div className={`bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-all ${
-      isSelected ? 'border-green-500 ring-2 ring-green-200 bg-green-50' : 'border-gray-200'
+      isSelected ? 'border-gray-500 ring-2 ring-gray-200 bg-gray-50' : 'border-gray-200'
     }`}>
       {/* 카드 헤더 */}
       <div className="flex items-start justify-between mb-4">
@@ -46,9 +46,9 @@ export default function MeetingCard({ meeting, isSelected, onSelect }) {
             type="checkbox"
             checked={isSelected}
             onChange={() => onSelect(script_id)}
-            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            className="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-gray-500"
           />
-          <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600 cursor-pointer">
+          <h3 className="text-lg font-semibold text-gray-900 hover:text-gray-700 cursor-pointer">
             <Link href={`/meetings/${script_id}`}>
               {title}
             </Link>
@@ -85,7 +85,7 @@ export default function MeetingCard({ meeting, isSelected, onSelect }) {
         {tags && tags.map((tag, index) => (
           <span
             key={index}
-            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800"
           >
             {tag}
           </span>
@@ -96,7 +96,7 @@ export default function MeetingCard({ meeting, isSelected, onSelect }) {
       <div className="flex items-center justify-end pt-4 border-t border-gray-100">
         <Link 
           href={`/meetings/${script_id}`}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="text-gray-600 hover:text-gray-800 text-sm font-medium"
         >
           자세히 보기 →
         </Link>

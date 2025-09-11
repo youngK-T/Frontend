@@ -54,48 +54,48 @@ export default function MeetingDetail({ meeting }) {
     return speakersString.split(',').length
   }
 
-  // 화자별 색상 매핑 (동적)
+  // 화자별 색상 매핑 (회색 톤으로 통일)
   const getSpeakerColor = (speaker) => {
     const colorPalette = [
       {
-        bg: 'bg-blue-100',
-        text: 'text-blue-800',
-        border: 'border-blue-200'
+        bg: 'bg-gray-100',
+        text: 'text-gray-800',
+        border: 'border-gray-300'
       },
       {
-        bg: 'bg-green-100',
-        text: 'text-green-800',
-        border: 'border-green-200'
+        bg: 'bg-gray-200',
+        text: 'text-gray-800',
+        border: 'border-gray-400'
       },
       {
-        bg: 'bg-purple-100',
-        text: 'text-purple-800',
-        border: 'border-purple-200'
+        bg: 'bg-slate-100',
+        text: 'text-slate-800',
+        border: 'border-slate-300'
       },
       {
-        bg: 'bg-orange-100',
-        text: 'text-orange-800',
-        border: 'border-orange-200'
+        bg: 'bg-slate-200',
+        text: 'text-slate-800',
+        border: 'border-slate-400'
       },
       {
-        bg: 'bg-pink-100',
-        text: 'text-pink-800',
-        border: 'border-pink-200'
+        bg: 'bg-stone-100',
+        text: 'text-stone-800',
+        border: 'border-stone-300'
       },
       {
-        bg: 'bg-indigo-100',
-        text: 'text-indigo-800',
-        border: 'border-indigo-200'
+        bg: 'bg-stone-200',
+        text: 'text-stone-800',
+        border: 'border-stone-400'
       },
       {
-        bg: 'bg-teal-100',
-        text: 'text-teal-800',
-        border: 'border-teal-200'
+        bg: 'bg-neutral-100',
+        text: 'text-neutral-800',
+        border: 'border-neutral-300'
       },
       {
-        bg: 'bg-red-100',
-        text: 'text-red-800',
-        border: 'border-red-200'
+        bg: 'bg-neutral-200',
+        text: 'text-neutral-800',
+        border: 'border-neutral-400'
       }
     ]
 
@@ -113,17 +113,17 @@ export default function MeetingDetail({ meeting }) {
     }
   }
 
-  // 사이드바용 화자 색상 (간단한 형태)
+  // 사이드바용 화자 색상 (회색 톤으로 통일)
   const getSpeakerColorClass = (speaker) => {
     const colorPalette = [
-      'bg-blue-100 text-blue-800',
-      'bg-green-100 text-green-800',
-      'bg-purple-100 text-purple-800',
-      'bg-orange-100 text-orange-800',
-      'bg-pink-100 text-pink-800',
-      'bg-indigo-100 text-indigo-800',
-      'bg-teal-100 text-teal-800',
-      'bg-red-100 text-red-800'
+      'bg-gray-100 text-gray-800',
+      'bg-gray-200 text-gray-800',
+      'bg-slate-100 text-slate-800',
+      'bg-slate-200 text-slate-800',
+      'bg-stone-100 text-stone-800',
+      'bg-stone-200 text-stone-800',
+      'bg-neutral-100 text-neutral-800',
+      'bg-neutral-200 text-neutral-800'
     ]
 
     let hash = 0
@@ -271,7 +271,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
           <div className="flex items-center space-x-3">
             <Link 
               href={`/chat?script_id=${script_id}`}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2 transition-colors"
+              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center space-x-2 transition-colors"
             >
               <span>🤖</span>
               <span>AI 챗봇으로 질문</span>
@@ -289,7 +289,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
             </button>
             <button 
               onClick={handleDownload}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center space-x-2"
+              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center space-x-2"
             >
               <span>⬇</span>
               <span>다운로드</span>
@@ -307,7 +307,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               }}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'summary'
-                  ? 'border-blue-500 text-blue-600'
+                  ? 'border-gray-500 text-gray-700'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -317,7 +317,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               onClick={handleScriptTabClick}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'script'
-                  ? 'border-blue-500 text-blue-600'
+                  ? 'border-gray-500 text-gray-700'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -330,7 +330,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               }}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'minutes'
-                  ? 'border-blue-500 text-blue-600'
+                  ? 'border-gray-500 text-gray-700'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -372,7 +372,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               <div className="bg-gray-50 rounded-lg p-4">
                 {scriptLoading ? (
                   <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
                     <span className="ml-2 text-gray-600">스크립트를 불러오는 중...</span>
                   </div>
                 ) : scriptError ? (
@@ -463,7 +463,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               {tags && tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800"
                 >
                   {tag}
                 </span>
