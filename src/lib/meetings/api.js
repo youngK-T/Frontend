@@ -114,3 +114,26 @@ export async function getMeetingScript(scriptId) {
     throw error
   }
 }
+
+// 태그 목록 가져오기 (내부 API Route 사용)
+export async function getTags() {
+  try {
+    const response = await fetch('/api/meetings/tags', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Failed to fetch tags:', error)
+    throw error
+  }
+}
