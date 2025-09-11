@@ -40,16 +40,16 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
     
     if (selectedMeeting) {
       if (selectedMeeting.isMultiple) {
-        systemMessage = `안녕하세요! 셰르파입니다. 선택하신 ${selectedMeeting.script_ids.length}개 회의에 대한 질문을 해주세요.`;
+        systemMessage = `안녕하세요! 회의 분석 AI 가이드 셰르파입니다. 선택하신 ${selectedMeeting.script_ids.length}개 회의에 대한 질문을 해주세요.`;
       } else {
-        systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의에 대한 질문을 해주세요.`;
+        systemMessage = `안녕하세요! 회의 분석 AI 가이드 셰르파입니다. 선택하신 회의에 대한 질문을 해주세요.`;
       }
     } else if (initialScriptIds.length > 1) {
-      systemMessage = `안녕하세요! 셰르파입니다. 선택하신 ${initialScriptIds.length}개 회의에 대한 질문을 해주세요.`;
+      systemMessage = `안녕하세요! 회의 분석 AI 가이드 셰르파입니다. 선택하신 ${initialScriptIds.length}개 회의에 대한 질문을 해주세요.`;
     } else if (initialScriptIds.length === 1) {
-      systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의에 대한 질문을 해주세요.`;
+      systemMessage = `안녕하세요! 회의 분석 AI 가이드 셰르파입니다. 선택하신 회의에 대한 질문을 해주세요.`;
     } else {
-      systemMessage = '안녕하세요! 셰르파입니다. 전사적 차원의 회의 검색을 통해 궁금한 내용을 질문해주세요.';
+      systemMessage = '안녕하세요! 회의 분석 AI 가이드 셰르파입니다.전사적 차원의 회의 검색을 통해 궁금한 내용을 질문해주세요.';
     }
 
     setMessages(prev => [
@@ -122,7 +122,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
           if (m.role === 'system') {
             return (
               <div key={m.id} className="bg-blue-50 rounded-2xl p-4">
-                <div className="text-sm font-semibold text-blue-700 mb-1">셰르파</div>
+                <div className="text-sm font-semibold text-blue-700 mb-1">AI 셰르파</div>
                 <p className="text-gray-900">{m.content}</p>
               </div>
             );
