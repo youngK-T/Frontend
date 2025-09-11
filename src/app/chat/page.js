@@ -17,6 +17,9 @@ function ChatContent() {
   const scriptIds = searchParams.getAll('script_ids');
   const allScriptIds = scriptId ? [scriptId] : scriptIds;
 
+  // URL 파라미터 변경 감지를 위한 키 생성
+  const urlKey = `${scriptId || 'none'}-${scriptIds.join(',')}`;
+
   // 선택된 회의 정보 가져오기
   useEffect(() => {
     async function fetchMeetingInfo() {
@@ -137,6 +140,7 @@ function ChatContent() {
         </div>
 
         <ChatBot 
+          key={urlKey}
           initialScriptIds={allScriptIds}
           selectedMeeting={selectedMeeting}
         />

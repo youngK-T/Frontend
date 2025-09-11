@@ -16,9 +16,23 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedScriptIds] = useState(initialScriptIds); // 외부에서 전달받은 script_ids 사용
+  const [selectedScriptIds, setSelectedScriptIds] = useState(initialScriptIds); // 외부에서 전달받은 script_ids 사용
   const [usedScriptIds, setUsedScriptIds] = useState([]);
   const scrollRef = useRef(null);
+
+  // initialScriptIds가 변경될 때 챗봇 초기화
+  useEffect(() => {
+    setSelectedScriptIds(initialScriptIds);
+    setUsedScriptIds([]);
+    // 메시지를 초기 시스템 메시지만 남기고 초기화
+    setMessages([
+      {
+        id: 'sys-1',
+        role: 'system',
+        content: '안녕하세요! 셰르파입니다. 회의에 대한 질문을 해주세요.',
+      },
+    ]);
+  }, [initialScriptIds.join(',')]); // 배열 내용이 변경되었는지 확인
 
   // selectedMeeting이 변경될 때 시스템 메시지 업데이트
   useEffect(() => {
