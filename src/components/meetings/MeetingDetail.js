@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import { getMeetingScript } from '@/lib/meetings/api'
+import EditMinutesModal from './EditMinutesModal'
 
 export default function MeetingDetail({ meeting }) {
   const [activeTab, setActiveTab] = useState('summary')
@@ -11,6 +12,7 @@ export default function MeetingDetail({ meeting }) {
   const [scriptLoading, setScriptLoading] = useState(false)
   const [scriptError, setScriptError] = useState(null)
   const [copySuccess, setCopySuccess] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   const {
     script_id,
@@ -409,8 +411,22 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
           )}
 
           {activeTab === 'minutes' && (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <div className="prose prose-slate max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900 prose-ul:text-gray-900 prose-li:text-gray-900 prose-ol:text-gray-900">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+              {/* 회의록 헤더 */}
+              <div className="flex items-center justify-between p-6 pb-4 border-b border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-900">회의록</h3>
+                <button 
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 flex items-center space-x-2 text-sm"
+                >
+                  <span>✏️</span>
+                  <span>수정</span>
+                </button>
+              </div>
+              
+              {/* 회의록 내용 */}
+              <div className="p-6 pt-4">
+                <div className="prose prose-slate max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-strong:text-gray-900 prose-ul:text-gray-900 prose-li:text-gray-900 prose-ol:text-gray-900">
                 <ReactMarkdown
                   components={{
                     h1: ({ children }) => <h1 className="text-2xl font-bold text-gray-900 mb-4">{children}</h1>,
@@ -427,6 +443,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
                 >
                   {actualMeetingMinutes}
                 </ReactMarkdown>
+                </div>
               </div>
             </div>
           )}
@@ -473,6 +490,13 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
 
         </div>
       </div>
+      
+      {/* 회의록 수정 모달 */}
+      <EditMinutesModal 
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        meeting={meeting}
+      />
     </div>
   )
 }
