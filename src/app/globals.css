@@ -3,11 +3,17 @@
 :root {
   --background: #f9fafb;
   --foreground: #111827;
-  --primary: #4b5563;
-  --primary-hover: #374151;
-  --secondary: #6b7280;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #6366f1;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --warning: #f59e0b;
+  --success: #22c55e;
   --muted: #f3f4f6;
   --border: #e5e7eb;
+  --neutral: #6b7280;
+  --neutral-hover: #4b5563;
 }
 
 @theme inline {
@@ -21,11 +27,17 @@
   :root {
     --background: #1f2937;
     --foreground: #f9fafb;
-    --primary: #9ca3af;
-    --primary-hover: #d1d5db;
-    --secondary: #6b7280;
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --secondary: #818cf8;
+    --accent: #34d399;
+    --accent-hover: #10b981;
+    --warning: #fbbf24;
+    --success: #4ade80;
     --muted: #374151;
     --border: #4b5563;
+    --neutral: #9ca3af;
+    --neutral-hover: #d1d5db;
   }
 }
 
@@ -35,25 +47,49 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* 전역 회색 톤 클래스 */
-.gray-theme {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+/* 브랜드 색상 클래스 */
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  transition: background-color 0.2s ease;
 }
 
-.gray-card {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+.btn-primary:hover {
+  background-color: var(--primary-hover);
 }
 
-.gray-text {
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
+.btn-accent {
+  background-color: var(--accent);
+  color: white;
+  transition: background-color 0.2s ease;
 }
 
-.gray-text-muted {
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
+.btn-accent:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.bg-primary-light {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.bg-accent-light {
+  background-color: rgba(16, 185, 129, 0.1);
 }

@@ -18,7 +18,7 @@ export const metadata = {
   title: "SUMMIT - AI 미팅 HUB",
   description: "AI 기반 회의 요약 및 관리 서비스",
   icons: {
-		icon: "/summit2.png",
+		icon: "/summit.png",
 	},
 };
 

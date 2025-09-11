@@ -87,7 +87,7 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-40">
       <div className="bg-white rounded-2xl shadow-xl p-6 max-w-lg w-full">
         {/* 헤더 */}
         <div className="flex justify-between items-center mb-6">
@@ -108,8 +108,8 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
           <div
             className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
               isDragOver 
-                ? 'border-gray-500 bg-gray-50' 
-                : 'border-gray-300 hover:border-gray-400'
+                ? 'border-blue-300 bg-blue-50' 
+                : 'border-gray-300 hover:border-blue-300'
             }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -125,9 +125,9 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
             <p className="text-xs text-gray-500">WAV, MP3, M4A, AAC (최대 100MB)</p>
             
             {selectedFile && (
-              <div className="mt-3 p-2 bg-gray-50 border border-gray-200 rounded">
-                <p className="text-gray-800 text-sm font-medium">✓ {selectedFile.name}</p>
-                <p className="text-gray-600 text-xs">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+              <div className="mt-3 p-2 bg-emerald-50 border border-emerald-200 rounded">
+                <p className="text-emerald-700 text-sm font-medium">✓ {selectedFile.name}</p>
+                <p className="text-emerald-600 text-xs">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
               </div>
             )}
           </div>
@@ -152,7 +152,7 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
             onChange={(e) => setMeetingTitle(e.target.value)}
             placeholder="예: 제품 개발 팀 회의, 주간 스탠드업 등"
             maxLength={100}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <p className="text-xs text-gray-500 mt-1">
             ({meetingTitle.length}/100자)
@@ -172,7 +172,7 @@ export default function SimpleUploadModal({ isOpen, onClose }) {
             disabled={!selectedFile || !meetingTitle.trim()}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedFile && meetingTitle.trim()
-                ? 'bg-gray-600 text-white hover:bg-gray-700'
+                ? 'bg-emerald-500/90 text-white hover:bg-emerald-600/90'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
