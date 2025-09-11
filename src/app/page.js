@@ -1,9 +1,24 @@
-// 메인 페이지 - 챗봇 사용
+'use client';
+import ChatBot from '@/components/chat/ChatBot';
+
 export default function Home() {
   return (
-    <div>
-      <h1>프론트엔드 애플리케이션 test001</h1>
-      <p>애플리케이션이 정상적으로 실행되고 있습니다.</p>
+    <div className="min-h-screen bg-gray-50">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <div className="flex items-center space-x-2 mb-4">
+            <button className="text-gray-400 hover:text-gray-600">
+              <span className="text-xl">←</span>
+            </button>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Summit</h2>
+              <p className="text-gray-600">전사 회의 분석 어시스턴트</p>
+            </div>
+          </div>
+        </div>
+
+        <ChatBot />
+      </main>
     </div>
   );
 }
