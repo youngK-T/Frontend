@@ -24,7 +24,7 @@ export default function MessageInput({ onSubmit, loading }) {
       <button
         type="submit"
         disabled={loading}
-        className={`px-4 py-3 rounded-lg text-white ${loading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
+        className={`px-4 py-3 rounded-lg text-white ${loading ? 'bg-gray-400' : 'bg-sky-300 hover:bg-sky-400'}`}
       >
         {loading ? '전송 중...' : '전송'}
       </button>
