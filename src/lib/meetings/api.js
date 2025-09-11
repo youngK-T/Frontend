@@ -68,3 +68,49 @@ export async function getMeetingsByTag(tag) {
     throw error
   }
 }
+
+// 특정 회의록 상세 정보 가져오기 (내부 API Route 사용)
+export async function getMeetingDetail(scriptId) {
+  try {
+    const response = await fetch(`/api/meetings/${scriptId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Failed to fetch meeting detail:', error)
+    throw error
+  }
+}
+
+// 특정 회의 스크립트 가져오기 (내부 API Route 사용)
+export async function getMeetingScript(scriptId) {
+  try {
+    const response = await fetch(`/api/meetings/${scriptId}/script`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Failed to fetch meeting script:', error)
+    throw error
+  }
+}
