@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* 로고 및 서비스명 */}
           <div className="flex items-center space-x-3">
-            <Link href="/" className="flex items-center space-x-3">
+            <Link href="/meetings" className="flex items-center space-x-3">
               <Image 
                 src="/summit.png" 
                 alt="Summit Logo" 
@@ -31,7 +31,7 @@ export default function Header() {
               회의 레포트
             </Link>
             <Link 
-              href="/"
+              href="/chat"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2 transition-colors"
             >
               <span>🤖</span>

@@ -1,132 +1,81 @@
 'use client';
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import ChatBot from '@/components/chat/ChatBot';
-import SimpleUploadModal from '@/components/upload/SimpleUploadModal';
-import { getMeetingDetail } from '@/lib/meetings/api';
 import Link from 'next/link';
+import { useState } from 'react';
+import SimpleUploadModal from '@/components/upload/SimpleUploadModal';
 
-function HomeContent() {
+export default function Home() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [selectedMeeting, setSelectedMeeting] = useState(null);
-  const [meetingLoading, setMeetingLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const scriptId = searchParams.get('script_id');
-
-  // 다중 script_ids 처리
-  const scriptIds = searchParams.getAll('script_ids');
-  const allScriptIds = scriptId ? [scriptId] : scriptIds;
-
-  // 선택된 회의 정보 가져오기
-  useEffect(() => {
-    async function fetchMeetingInfo() {
-      if (allScriptIds.length === 0) {
-        setSelectedMeeting(null);
-        return;
-      }
-
-      try {
-        setMeetingLoading(true);
-        if (allScriptIds.length === 1) {
-          // 단일 회의인 경우 상세 정보 가져오기
-          const meetingData = await getMeetingDetail(allScriptIds[0]);
-          setSelectedMeeting(meetingData);
-        } else {
-          // 다중 회의인 경우 모든 회의 정보 가져오기
-          const meetingPromises = allScriptIds.map(id => getMeetingDetail(id));
-          const meetingDataList = await Promise.allSettled(meetingPromises);
-          
-          const successfulMeetings = meetingDataList
-            .filter(result => result.status === 'fulfilled')
-            .map(result => result.value);
-          
-          const meetingTitles = successfulMeetings.map(meeting => meeting.title);
-          
-          setSelectedMeeting({
-            title: meetingTitles.length > 0 
-              ? meetingTitles.join(', ') 
-              : `선택된 ${allScriptIds.length}개 회의`,
-            script_ids: allScriptIds,
-            isMultiple: true,
-            meetings: successfulMeetings
-          });
-        }
-      } catch (error) {
-        console.error('Failed to fetch meeting info:', error);
-        setSelectedMeeting(null);
-      } finally {
-        setMeetingLoading(false);
-      }
-    }
-
-    fetchMeetingInfo();
-  }, [scriptId, scriptIds.join(',')]); // scriptIds 배열의 변화 감지
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">Summit</h2>
-                <p className="text-gray-600">전사 회의 분석 어시스턴트</p>
-                {meetingLoading && allScriptIds.length > 0 && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    회의 정보를 불러오는 중...
-                  </p>
-                )}
-                {selectedMeeting && (
-                  <p className="text-sm text-blue-600 mt-1">
-                    선택된 회의: {selectedMeeting.title}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex space-x-3">
-              <button
-                onClick={() => setIsUploadModalOpen(true)}
-                className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
-                </svg>
-                <span>새 회의 업로드</span>
-              </button>
-              <Link 
-                href="/meetings"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                회의 목록 보기
-              </Link>
-            </div>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+        {/* 메인 헤더 */}
+        <div className="text-center mb-16">
+          <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-8">
+            <svg className="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
           </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            정상을 향한 여정을 시작하세요
+          </h1>
+          <p className="text-lg text-gray-600 mb-2">
+            회의 분석의 <strong>Summit</strong>에 도달할 수 있도록
+          </p>
+          <p className="text-lg text-gray-600">
+            AI 가이드 <strong>세르파</strong>가 함께합니다
+          </p>
         </div>
 
-        <ChatBot 
-          initialScriptIds={allScriptIds}
-          selectedMeeting={selectedMeeting}
-        />
+        {/* 액션 카드들 */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+          {/* 새 회의 분석 카드 */}
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+            <div className="w-16 h-16 bg-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">새 회의 분석</h3>
+            <p className="text-gray-600 mb-6">
+              음성 파일을 업로드하여 AI가 자동으로<br />
+              회의의 핵심을 정리하고 분석합니다
+            </p>
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
+              className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            >
+              분석 시작하기
+            </button>
+          </div>
 
-        {/* 음성 업로드 모달 */}
-        <SimpleUploadModal 
-          isOpen={isUploadModalOpen} 
-          onClose={() => setIsUploadModalOpen(false)} 
-        />
+          {/* 회의 레포트 조회 카드 */}
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+            <div className="w-16 h-16 bg-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">회의 레포트 조회</h3>
+            <p className="text-gray-600 mb-6">
+              이미 완성된 회의 레포트를 선택하여<br />
+              세르파와 함께 심층 분석해보세요
+            </p>
+            <Link
+              href="/meetings"
+              className="block w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            >
+              레포트 보기
+            </Link>
+          </div>
+        </div>
       </main>
-    </div>
-  );
-}
 
-export default function Home() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-600">로딩 중...</span>
-      </div>
-    }>
-      <HomeContent />
-    </Suspense>
+      {/* 음성 업로드 모달 */}
+      <SimpleUploadModal 
+        isOpen={isUploadModalOpen} 
+        onClose={() => setIsUploadModalOpen(false)} 
+      />
+    </div>
   );
 }

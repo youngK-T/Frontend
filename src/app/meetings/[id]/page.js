@@ -30,6 +30,11 @@ export default function MeetingDetailPage() {
     }
   }, [params.id])
 
+  // 페이지 로드 시 맨 위로 스크롤
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [params.id])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
