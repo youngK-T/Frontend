@@ -12,7 +12,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
     {
       id: 'sys-1',
       role: 'system',
-      content: '안녕하세요! Summit입니다. 회의에 대한 질문을 해주세요.',
+      content: '안녕하세요! 셰르파입니다. 회의에 대한 질문을 해주세요.',
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,21 +26,16 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
     
     if (selectedMeeting) {
       if (selectedMeeting.isMultiple) {
-        // 다중 회의 선택 - 개수만 표시 (기존 방식 유지)
-        systemMessage = `안녕하세요! Summit입니다. 선택하신 ${selectedMeeting.script_ids.length}개 회의에 대한 질문을 해주세요.`;
+        systemMessage = `안녕하세요! 셰르파입니다. 선택하신 ${selectedMeeting.script_ids.length}개 회의에 대한 질문을 해주세요.`;
       } else {
-        // 단일 회의 선택
-        systemMessage = `안녕하세요! Summit입니다. 선택하신 회의 "${selectedMeeting.title}"에 대한 질문을 해주세요.`;
+        systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의 "${selectedMeeting.title}"에 대한 질문을 해주세요.`;
       }
     } else if (initialScriptIds.length > 1) {
-      // 다중 script_ids만 있는 경우
-      systemMessage = `안녕하세요! Summit입니다. 선택하신 ${initialScriptIds.length}개 회의에 대한 질문을 해주세요.`;
+      systemMessage = `안녕하세요! 셰르파입니다. 선택하신 ${initialScriptIds.length}개 회의에 대한 질문을 해주세요.`;
     } else if (initialScriptIds.length === 1) {
-      // 단일 script_id만 있는 경우
-      systemMessage = `안녕하세요! Summit입니다. 선택하신 회의(${initialScriptIds[0]})에 대한 질문을 해주세요.`;
+      systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의(${initialScriptIds[0]})에 대한 질문을 해주세요.`;
     } else {
-      // 선택된 회의 없음
-      systemMessage = '안녕하세요! Summit입니다. 회의에 대한 질문을 해주세요.';
+      systemMessage = '안녕하세요! 셰르파입니다. 회의에 대한 질문을 해주세요.';
     }
 
     setMessages(prev => [
@@ -100,12 +95,12 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-4 overflow-hidden">
-      <div ref={scrollRef} className="h-[60vh] p-4 md:p-6 overflow-y-auto space-y-4">
+      <div ref={scrollRef} className="h-[60vh] p-4 md:p-6 overflow-y-auto space-y-5">
         {messages.map((m) => {
           if (m.role === 'system') {
             return (
-              <div key={m.id} className="bg-gray-50 border border-gray-100 rounded-2xl p-4">
-                <div className="text-sm font-semibold text-gray-700 mb-1">시스템</div>
+              <div key={m.id} className="bg-blue-50 rounded-2xl p-4">
+                <div className="text-sm font-semibold text-blue-700 mb-1">셰르파</div>
                 <p className="text-gray-900">{m.content}</p>
               </div>
             );
@@ -113,7 +108,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
           if (m.role === 'user') {
             return (
               <div key={m.id} className="flex justify-end">
-                <div className="max-w-[80%] bg-gray-600 text-white rounded-2xl rounded-br-sm px-4 py-3 shadow whitespace-pre-wrap">
+                <div className="max-w-[80%] bg-gray-100 text-gray-800 rounded-2xl rounded-br-sm px-4 py-3 shadow whitespace-pre-wrap">
                   {m.content}
                 </div>
               </div>
@@ -122,7 +117,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
           if (m.role === 'assistant') {
             return (
               <div key={m.id} className="flex flex-col items-start space-y-2">
-                <div className="max-w-[80%] bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-3 whitespace-pre-wrap text-gray-900 shadow-sm">
+                <div className="max-w-[80%] bg-sky-50 rounded-2xl rounded-bl-sm px-5 py-4 whitespace-pre-wrap text-sky-900 shadow-sm">
                   {m.content}
                 </div>
                 {(m.sources?.length ?? 0) > 0 && (
@@ -141,7 +136,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
             );
           }
           return (
-            <div key={m.id} className="bg-red-50 border border-red-200 rounded-2xl p-4">
+            <div key={m.id} className="bg-red-50 rounded-2xl p-4">
               <div className="text-sm font-semibold text-red-700 mb-1">오류</div>
               <p className="text-red-800">{m.content}</p>
             </div>
@@ -150,8 +145,8 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 border rounded-2xl rounded-bl-sm px-4 py-3 text-gray-700 text-sm flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+            <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 text-gray-700 text-sm flex items-center space-x-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-sky-300"></div>
               <span>답변 생성 중...</span>
             </div>
           </div>
@@ -161,7 +156,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
       <div className="border-t border-gray-300 bg-white p-4">
         <MessageInput onSubmit={handleSend} loading={isLoading} />
         {selectedMeeting && (
-          <div className="text-xs text-gray-600 mt-2">
+          <div className="text-xs text-blue-600 mt-2">
             선택된 회의: {selectedMeeting.title}
             {selectedMeeting.script_ids && selectedMeeting.script_ids.length > 1 && (
               <div className="text-xs text-gray-500 mt-1">

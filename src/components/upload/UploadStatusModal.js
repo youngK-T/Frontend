@@ -11,23 +11,23 @@ export default function UploadStatusModal() {
 
   const getProgressColor = (stage) => {
     switch (stage) {
-      case 'completed': return 'text-gray-700';
+      case 'completed': return 'text-emerald-600';
       case 'error': return 'text-red-600';
-      default: return 'text-gray-600';
+      default: return 'text-blue-500';
     }
   };
 
   const getProgressBgColor = (stage) => {
     switch (stage) {
-      case 'completed': return 'bg-gray-50 border-gray-200';
+      case 'completed': return 'bg-emerald-50 border-emerald-200';
       case 'error': return 'bg-red-50 border-red-200';
-      default: return 'bg-gray-50 border-gray-200';
+      default: return 'bg-blue-50 border-blue-200';
     }
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      <div className={`bg-white rounded-lg shadow-xl border-2 p-4 w-80 ${getProgressBgColor(uploadState.stage)}`}>
+      <div className={`bg-white rounded-lg shadow-xl border p-4 w-80 ${getProgressBgColor(uploadState.stage)}`}>
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
@@ -36,7 +36,7 @@ export default function UploadStatusModal() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 text-sm">셰르파 분석 중</h3>
-              <p className="text-xs text-gray-600">Summit에서 처리 중</p>
+              <p className="text-xs text-gray-600">셰르파 처리 중</p>
             </div>
           </div>
           {(uploadState.stage === 'completed' || uploadState.stage === 'error') && (
@@ -64,7 +64,7 @@ export default function UploadStatusModal() {
             <div 
               className={`h-2 rounded-full transition-all duration-500 ${
                 uploadState.stage === 'error' ? 'bg-red-500' : 
-                uploadState.stage === 'completed' ? 'bg-gray-600' : 'bg-gray-500'
+                uploadState.stage === 'completed' ? 'bg-emerald-500' : 'bg-blue-400'
               }`}
               style={{ width: `${(uploadState.progress / 5) * 100}%` }}
             ></div>
@@ -172,7 +172,7 @@ export default function UploadStatusModal() {
 
         {/* 상태 메시지 */}
         {uploadState.stage === 'completed' && (
-          <div className="mt-3 p-2 bg-gray-100 rounded text-sm text-gray-800">
+          <div className="mt-3 p-2 bg-emerald-100 rounded text-sm text-emerald-800">
             ✓ 회의 분석이 완료되었습니다! 3초 후 회의 목록으로 이동합니다.
           </div>
         )}

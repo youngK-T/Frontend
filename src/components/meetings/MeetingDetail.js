@@ -54,85 +54,29 @@ export default function MeetingDetail({ meeting }) {
     return speakersString.split(',').length
   }
 
-  // 화자별 색상 매핑 (회색 톤으로 통일)
+  // 화자별 색상 매핑 (블루/에메랄드 파스텔톤으로 구분)
   const getSpeakerColor = (speaker) => {
-    const colorPalette = [
-      {
-        bg: 'bg-gray-100',
-        text: 'text-gray-800',
-        border: 'border-gray-300'
-      },
-      {
-        bg: 'bg-gray-200',
-        text: 'text-gray-800',
-        border: 'border-gray-400'
-      },
-      {
-        bg: 'bg-slate-100',
-        text: 'text-slate-800',
-        border: 'border-slate-300'
-      },
-      {
-        bg: 'bg-slate-200',
-        text: 'text-slate-800',
-        border: 'border-slate-400'
-      },
-      {
-        bg: 'bg-stone-100',
-        text: 'text-stone-800',
-        border: 'border-stone-300'
-      },
-      {
-        bg: 'bg-stone-200',
-        text: 'text-stone-800',
-        border: 'border-stone-400'
-      },
-      {
-        bg: 'bg-neutral-100',
-        text: 'text-neutral-800',
-        border: 'border-neutral-300'
-      },
-      {
-        bg: 'bg-neutral-200',
-        text: 'text-neutral-800',
-        border: 'border-neutral-400'
-      }
-    ]
-
-    // 화자 이름을 기반으로 색상 인덱스 생성 (일관된 색상 할당)
+    // 화자 이름을 기반으로 해시 → 짝/홀로 블루/에메랄드 결정
     let hash = 0
     for (let i = 0; i < speaker.length; i++) {
       hash = speaker.charCodeAt(i) + ((hash << 5) - hash)
     }
-    const colorIndex = Math.abs(hash) % colorPalette.length
+    const isBlue = Math.abs(hash) % 2 === 0
 
-    return colorPalette[colorIndex] || {
-      bg: 'bg-gray-100',
-      text: 'text-gray-800',
-      border: 'border-gray-200'
+    if (isBlue) {
+      return { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' }
     }
+    return { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' }
   }
 
-  // 사이드바용 화자 색상 (회색 톤으로 통일)
+  // 사이드바용 화자 색상 (블루/에메랄드 파스텔톤)
   const getSpeakerColorClass = (speaker) => {
-    const colorPalette = [
-      'bg-gray-100 text-gray-800',
-      'bg-gray-200 text-gray-800',
-      'bg-slate-100 text-slate-800',
-      'bg-slate-200 text-slate-800',
-      'bg-stone-100 text-stone-800',
-      'bg-stone-200 text-stone-800',
-      'bg-neutral-100 text-neutral-800',
-      'bg-neutral-200 text-neutral-800'
-    ]
-
     let hash = 0
     for (let i = 0; i < speaker.length; i++) {
       hash = speaker.charCodeAt(i) + ((hash << 5) - hash)
     }
-    const colorIndex = Math.abs(hash) % colorPalette.length
-
-    return colorPalette[colorIndex] || 'bg-gray-100 text-gray-800'
+    const isBlue = Math.abs(hash) % 2 === 0
+    return isBlue ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'
   }
 
   // 스크립트 탭 클릭 시 스크립트 데이터 로드
@@ -271,7 +215,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
           <div className="flex items-center space-x-3">
             <Link 
               href={`/chat?script_id=${script_id}`}
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center space-x-2 transition-colors"
+              className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2 transition-colors"
             >
               <span>🤖</span>
               <span>AI 챗봇으로 질문</span>
@@ -289,7 +233,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
             </button>
             <button 
               onClick={handleDownload}
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center space-x-2"
+              className="bg-emerald-500/90 text-white px-4 py-2 rounded-lg hover:bg-emerald-600/90 flex items-center space-x-2"
             >
               <span>⬇</span>
               <span>다운로드</span>
@@ -307,7 +251,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               }}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'summary'
-                  ? 'border-gray-500 text-gray-700'
+                  ? 'border-blue-300 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -317,7 +261,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               onClick={handleScriptTabClick}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'script'
-                  ? 'border-gray-500 text-gray-700'
+                  ? 'border-blue-300 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -330,7 +274,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               }}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'minutes'
-                  ? 'border-gray-500 text-gray-700'
+                  ? 'border-blue-300 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -372,7 +316,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               <div className="bg-gray-50 rounded-lg p-4">
                 {scriptLoading ? (
                   <div className="flex items-center justify-center py-8">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-400"></div>
                     <span className="ml-2 text-gray-600">스크립트를 불러오는 중...</span>
                   </div>
                 ) : scriptError ? (
@@ -463,7 +407,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               {tags && tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800"
+                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700"
                 >
                   {tag}
                 </span>

@@ -26,16 +26,16 @@ export default function Header() {
           <nav className="flex items-center space-x-6">
             <Link 
               href="/meetings" 
-              className="text-gray-600 hover:text-gray-800 font-medium transition-colors"
+              className="text-gray-600 hover:text-blue-400 font-medium transition-colors"
             >
               회의 레포트
             </Link>
             <Link 
               href="/chat"
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center space-x-2 transition-colors"
+              className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2 transition-colors"
             >
               <span>🤖</span>
-              <span>AI 챗봇</span>
+              <span>AI 셰르파</span>
             </Link>
           </nav>
         </div>
