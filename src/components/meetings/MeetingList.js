@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import MeetingCard from './MeetingCard'
 import { getMeetings } from '@/lib/meetings'
 
 export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
+  const router = useRouter()
   const [allMeetings, setAllMeetings] = useState([])
   const [filteredMeetings, setFilteredMeetings] = useState([])
   const [loading, setLoading] = useState(true)
@@ -75,7 +77,7 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
         <span className="ml-2 text-gray-600">회의록을 불러오는 중...</span>
       </div>
     )
@@ -89,7 +91,7 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
         <p className="text-gray-600 mb-4">{error}</p>
         <button 
           onClick={() => window.location.reload()}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
         >
           다시 시도
         </button>
@@ -120,9 +122,15 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
   // AI 분석 핸들러
   const handleAnalyze = () => {
     const selectedIds = Array.from(selectedMeetings)
+    if (selectedIds.length === 0) {
+      alert('분석할 회의를 선택해주세요.')
+      return
+    }
+    
     console.log('AI 분석 요청:', selectedIds)
-    // TODO: AI 분석 API 호출
-    alert(`선택된 ${selectedIds.length}개 회의록으로 AI 분석을 시작합니다.\n\nScript IDs: ${selectedIds.join(', ')}`)
+    // 다중 선택된 회의 ID들을 쿼리 파라미터로 전달하여 챗봇으로 이동
+    const queryParams = selectedIds.map(id => `script_ids=${encodeURIComponent(id)}`).join('&')
+    router.push(`/chat?${queryParams}`)
   }
 
   // 개별 회의 해제 핸들러
@@ -159,9 +167,9 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-gray-500">
               <span>다음 선택:</span>
-              <button 
+              <button
                 onClick={handleSelectAll}
-                className="text-blue-600 hover:text-blue-800"
+                className="text-gray-600 hover:text-gray-800"
               >
                 {selectedMeetings.size === filteredMeetings.length ? '선택 해제' : '전체 선택'}
               </button>
@@ -169,7 +177,7 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
             {selectedMeetings.size > 0 && (
               <button
                 onClick={handleAnalyze}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+                className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center space-x-2"
               >
                 <span>📊</span>
                 <span>선택한 {selectedMeetings.size}개 레포트로 AI 분석</span>
@@ -182,12 +190,12 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
       {/* 선택된 회의 태그 표시 */}
       {selectedMeetings.size > 0 && (
         <div className="mb-6">
-          <div className="bg-white border border-blue-200 rounded-lg p-4">
+          <div className="bg-white border border-gray-200 rounded-lg p-4">
             <div className="flex items-center space-x-2 mb-3">
-              <span className="text-sm font-medium text-blue-800">선택된 회의:</span>
+              <span className="text-sm font-medium text-gray-800">선택된 회의:</span>
               <button
                 onClick={() => setSelectedMeetings(new Set())}
-                className="text-xs text-blue-600 hover:text-blue-800 underline"
+                className="text-xs text-gray-600 hover:text-gray-800 underline"
               >
                 전체 해제
               </button>
@@ -196,14 +204,14 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
               {Array.from(selectedMeetings).map((scriptId) => (
                 <div
                   key={scriptId}
-                  className="inline-flex items-center bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  className="inline-flex items-center bg-gray-200 text-gray-800 text-sm px-3 py-1 rounded-full"
                 >
                   <span className="max-w-xs truncate">
                     {getSelectedMeetingTitle(scriptId)}
                   </span>
                   <button
                     onClick={() => handleRemoveSelected(scriptId)}
-                    className="ml-2 text-blue-600 hover:text-blue-800 hover:bg-blue-200 rounded-full p-0.5 transition-colors"
+                    className="ml-2 text-gray-600 hover:text-gray-800 hover:bg-gray-300 rounded-full p-0.5 transition-colors"
                     title="선택 해제"
                   >
                     <span className="text-xs">×</span>

@@ -30,10 +30,15 @@ export default function MeetingDetailPage() {
     }
   }, [params.id])
 
+  // 페이지 로드 시 맨 위로 스크롤
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [params.id])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
         <span className="ml-2 text-gray-600">회의록을 불러오는 중...</span>
       </div>
     )
@@ -47,7 +52,7 @@ export default function MeetingDetailPage() {
           <p className="text-gray-600 mb-4">{error || '회의록을 찾을 수 없습니다'}</p>
           <Link 
             href="/meetings"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
           >
             목록으로 돌아가기
           </Link>
