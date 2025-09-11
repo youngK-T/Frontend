@@ -50,16 +50,11 @@ export default function MeetingsPage() {
   return (
     <div className="min-h-screen bg-gray-50" style={{overflow: 'visible'}}>
       {/* 메인 컨텐츠 */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-visible">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8 overflow-visible">
         <div className="mb-8 overflow-visible">
-          <div className="flex items-center space-x-2 mb-6">
-            <button className="text-gray-400 hover:text-gray-600">
-              <span className="text-xl">←</span>
-            </button>
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">회의 리포트 목록</h2>
-              <p className="text-gray-900">과거 회의 기록들을 확인하고 관리하세요</p>
-            </div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">회의 리포트 목록</h2>
+            <p className="text-gray-900">과거 회의 기록들을 확인하고 관리하세요</p>
           </div>
           
 
