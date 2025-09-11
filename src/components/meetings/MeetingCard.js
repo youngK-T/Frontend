@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function MeetingCard({ meeting }) {
+export default function MeetingCard({ meeting, isSelected, onSelect }) {
   const { 
     script_id, 
     title, 
@@ -36,12 +36,16 @@ export default function MeetingCard({ meeting }) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div className={`bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-all ${
+      isSelected ? 'border-green-500 ring-2 ring-green-200 bg-green-50' : 'border-gray-200'
+    }`}>
       {/* 카드 헤더 */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
           <input 
-            type="checkbox" 
+            type="checkbox"
+            checked={isSelected}
+            onChange={() => onSelect(script_id)}
             className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
           />
           <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600 cursor-pointer">
@@ -50,9 +54,6 @@ export default function MeetingCard({ meeting }) {
             </Link>
           </h3>
         </div>
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-          완료
-        </span>
       </div>
 
       {/* 회의 정보 */}
@@ -67,7 +68,7 @@ export default function MeetingCard({ meeting }) {
         </div>
         <div className="flex items-center space-x-1">
           <span>🗣️</span>
-          <span>AI 회의록</span>
+          <span>{speakers || '발화자 정보 없음'}</span>
         </div>
       </div>
 
@@ -92,15 +93,7 @@ export default function MeetingCard({ meeting }) {
       </div>
 
       {/* 액션 버튼 */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-        <div className="flex items-center space-x-3">
-          <button className="text-gray-400 hover:text-gray-600" title="보기">
-            <span>👁️</span>
-          </button>
-          <button className="text-gray-400 hover:text-gray-600" title="다운로드">
-            <span>📥</span>
-          </button>
-        </div>
+      <div className="flex items-center justify-end pt-4 border-t border-gray-100">
         <Link 
           href={`/meetings/${script_id}`}
           className="text-blue-600 hover:text-blue-800 text-sm font-medium"
