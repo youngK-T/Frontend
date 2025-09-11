@@ -108,8 +108,8 @@ export default function MeetingsPage() {
             </div>
 
             {/* 태그 필터 */}
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-sm text-gray-900 mr-2">🏷️ 태그 필터</span>
+            <div className="mb-4">
+              <span className="text-sm text-gray-900 mb-3 block">🏷️ 태그 필터</span>
               <div className="flex flex-wrap gap-2">
                 {tagsLoading ? (
                   <span className="text-sm text-gray-500">태그를 불러오는 중...</span>
