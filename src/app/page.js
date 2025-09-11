@@ -1,11 +1,66 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ChatBot from '@/components/chat/ChatBot';
 import SimpleUploadModal from '@/components/upload/SimpleUploadModal';
+import { getMeetingDetail } from '@/lib/meetings/api';
 import Link from 'next/link';
 
-export default function Home() {
+function HomeContent() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [selectedMeeting, setSelectedMeeting] = useState(null);
+  const [meetingLoading, setMeetingLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const scriptId = searchParams.get('script_id');
+
+  // 다중 script_ids 처리
+  const scriptIds = searchParams.getAll('script_ids');
+  const allScriptIds = scriptId ? [scriptId] : scriptIds;
+
+  // 선택된 회의 정보 가져오기
+  useEffect(() => {
+    async function fetchMeetingInfo() {
+      if (allScriptIds.length === 0) {
+        setSelectedMeeting(null);
+        return;
+      }
+
+      try {
+        setMeetingLoading(true);
+        if (allScriptIds.length === 1) {
+          // 단일 회의인 경우 상세 정보 가져오기
+          const meetingData = await getMeetingDetail(allScriptIds[0]);
+          setSelectedMeeting(meetingData);
+        } else {
+          // 다중 회의인 경우 모든 회의 정보 가져오기
+          const meetingPromises = allScriptIds.map(id => getMeetingDetail(id));
+          const meetingDataList = await Promise.allSettled(meetingPromises);
+          
+          const successfulMeetings = meetingDataList
+            .filter(result => result.status === 'fulfilled')
+            .map(result => result.value);
+          
+          const meetingTitles = successfulMeetings.map(meeting => meeting.title);
+          
+          setSelectedMeeting({
+            title: meetingTitles.length > 0 
+              ? meetingTitles.join(', ') 
+              : `선택된 ${allScriptIds.length}개 회의`,
+            script_ids: allScriptIds,
+            isMultiple: true,
+            meetings: successfulMeetings
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch meeting info:', error);
+        setSelectedMeeting(null);
+      } finally {
+        setMeetingLoading(false);
+      }
+    }
+
+    fetchMeetingInfo();
+  }, [scriptId, scriptIds.join(',')]); // scriptIds 배열의 변화 감지
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -16,6 +71,16 @@ export default function Home() {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">Summit</h2>
                 <p className="text-gray-600">전사 회의 분석 어시스턴트</p>
+                {meetingLoading && allScriptIds.length > 0 && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    회의 정보를 불러오는 중...
+                  </p>
+                )}
+                {selectedMeeting && (
+                  <p className="text-sm text-blue-600 mt-1">
+                    선택된 회의: {selectedMeeting.title}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex space-x-3">
@@ -38,7 +103,10 @@ export default function Home() {
           </div>
         </div>
 
-        <ChatBot />
+        <ChatBot 
+          initialScriptIds={allScriptIds}
+          selectedMeeting={selectedMeeting}
+        />
 
         {/* 음성 업로드 모달 */}
         <SimpleUploadModal 
@@ -47,5 +115,18 @@ export default function Home() {
         />
       </main>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span className="ml-2 text-gray-600">로딩 중...</span>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }
