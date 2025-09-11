@@ -69,17 +69,50 @@ function ChatContent() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Summit</h2>
-                <p className="text-gray-600">전사 회의 분석 어시스턴트</p>
-                {meetingLoading && allScriptIds.length > 0 && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    회의 정보를 불러오는 중...
-                  </p>
+                <h2 className="text-3xl font-bold text-gray-900">Summit : 회의 분석 어시스턴트</h2>
+                
+                {/* 전사 검색 모드 */}
+                {allScriptIds.length === 0 && (
+                  <div className="mt-3">
+                    <p className="text-gray-600">전사적 차원의 회의 검색을 통해 조직의 모든 회의록에서 필요한 정보를 찾아드립니다.</p>
+                    <div className="mt-2 flex items-center space-x-2 text-sm text-gray-500">
+                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">🔍 전사 검색</span>
+                      <span>모든 회의록에서 검색</span>
+                    </div>
+                  </div>
                 )}
-                {selectedMeeting && (
-                  <p className="text-sm text-blue-500 mt-1">
-                    선택된 회의: {selectedMeeting.title}
-                  </p>
+
+                {/* 단일/다중 회의 검색 모드 */}
+                {allScriptIds.length > 0 && (
+                  <div className="mt-3">
+                    {meetingLoading ? (
+                      <div className="flex items-center space-x-2 text-sm text-gray-500">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-400"></div>
+                        <span>회의 정보를 불러오는 중...</span>
+                      </div>
+                    ) : selectedMeeting ? (
+                      <div>
+                        <div className="flex items-center space-x-2 text-sm mb-2">
+                          {selectedMeeting.isMultiple ? (
+                            <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">📋 다중 검색</span>
+                          ) : (
+                            <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">📄 단일 검색</span>
+                          )}
+                          <span className="text-gray-500">
+                            {selectedMeeting.isMultiple 
+                              ? `${allScriptIds.length}개 회의에서 검색` 
+                              : '선택된 회의에서 검색'
+                            }
+                          </span>
+                        </div>
+                        <p className="text-blue-600 font-medium">
+                          {selectedMeeting.title}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-red-500">회의 정보를 불러올 수 없습니다.</p>
+                    )}
+                  </div>
                 )}
               </div>
             </div>

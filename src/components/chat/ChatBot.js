@@ -28,14 +28,14 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
       if (selectedMeeting.isMultiple) {
         systemMessage = `안녕하세요! 셰르파입니다. 선택하신 ${selectedMeeting.script_ids.length}개 회의에 대한 질문을 해주세요.`;
       } else {
-        systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의 "${selectedMeeting.title}"에 대한 질문을 해주세요.`;
+        systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의에 대한 질문을 해주세요.`;
       }
     } else if (initialScriptIds.length > 1) {
       systemMessage = `안녕하세요! 셰르파입니다. 선택하신 ${initialScriptIds.length}개 회의에 대한 질문을 해주세요.`;
     } else if (initialScriptIds.length === 1) {
-      systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의(${initialScriptIds[0]})에 대한 질문을 해주세요.`;
+      systemMessage = `안녕하세요! 셰르파입니다. 선택하신 회의에 대한 질문을 해주세요.`;
     } else {
-      systemMessage = '안녕하세요! 셰르파입니다. 회의에 대한 질문을 해주세요.';
+      systemMessage = '안녕하세요! 셰르파입니다. 전사적 차원의 회의 검색을 통해 궁금한 내용을 질문해주세요.';
     }
 
     setMessages(prev => [
@@ -72,13 +72,21 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
         throw new Error(`HTTP ${res.status} ${res.statusText}: ${text}`);
       }
       const data = await res.json();
+      console.log('챗봇 API 응답:', data);
       setMessages((prev) => [
         ...prev,
         {
           id: `a-${Date.now()}`,
           role: 'assistant',
-          content: data?.answer ?? '응답이 비어있습니다.',
+          content: data?.final_answer ?? data?.answer ?? '응답이 비어있습니다.',
+          userQuestion: data?.user_question,
+          evidenceQuotes: Array.isArray(data?.evidence_quotes) ? data.evidence_quotes : [],
+          confidenceScore: data?.confidence_score,
           sources: Array.isArray(data?.sources) ? data.sources : [],
+          usedScriptIds: Array.isArray(data?.used_script_ids) ? data.used_script_ids : [],
+          totalChunksAnalyzed: data?.total_chunks_analyzed,
+          selectedChunksCount: data?.selected_chunks_count,
+          memoryContext: data?.memory_context,
         },
       ]);
       setUsedScriptIds(Array.isArray(data?.used_script_ids) ? data.used_script_ids : []);
