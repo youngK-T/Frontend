@@ -139,6 +139,9 @@ export default function MeetingDetail({ meeting }) {
   const handleScriptTabClick = async () => {
     setActiveTab('script')
     
+    // 탭 변경 시 맨 위로 스크롤
+    window.scrollTo(0, 0)
+    
     if (!scriptData && !scriptLoading) {
       setScriptLoading(true)
       setScriptError(null)
@@ -267,7 +270,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
           </div>
           <div className="flex items-center space-x-3">
             <Link 
-              href={`/?script_id=${script_id}`}
+              href={`/chat?script_id=${script_id}`}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2 transition-colors"
             >
               <span>🤖</span>
@@ -298,7 +301,10 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
         <div className="border-b border-gray-200">
           <nav className="flex space-x-8">
             <button
-              onClick={() => setActiveTab('summary')}
+              onClick={() => {
+                setActiveTab('summary')
+                window.scrollTo(0, 0)
+              }}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'summary'
                   ? 'border-blue-500 text-blue-600'
@@ -318,7 +324,10 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               📄 전체 스크립트
             </button>
             <button
-              onClick={() => setActiveTab('minutes')}
+              onClick={() => {
+                setActiveTab('minutes')
+                window.scrollTo(0, 0)
+              }}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'minutes'
                   ? 'border-blue-500 text-blue-600'
@@ -462,24 +471,6 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
             </div>
           </div>
 
-          {/* 관련 액션 */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">관련 액션</h3>
-            <div className="space-y-2">
-              <button className="w-full flex items-center space-x-3 text-left p-3 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-300 transition-all">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600">🤖</span>
-                </div>
-                <span className="text-sm font-medium text-gray-900">AI 챗봇으로 질문하기</span>
-              </button>
-              <button className="w-full flex items-center space-x-3 text-left p-3 rounded-lg border border-gray-200 hover:bg-green-50 hover:border-green-300 transition-all">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-green-600">🔍</span>
-                </div>
-                <span className="text-sm font-medium text-gray-900">유사한 회의 찾기</span>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

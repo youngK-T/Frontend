@@ -130,7 +130,7 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
     console.log('AI 분석 요청:', selectedIds)
     // 다중 선택된 회의 ID들을 쿼리 파라미터로 전달하여 챗봇으로 이동
     const queryParams = selectedIds.map(id => `script_ids=${encodeURIComponent(id)}`).join('&')
-    router.push(`/?${queryParams}`)
+    router.push(`/chat?${queryParams}`)
   }
 
   // 개별 회의 해제 핸들러
