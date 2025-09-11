@@ -266,10 +266,13 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2">
+            <Link 
+              href={`/?script_id=${script_id}`}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2 transition-colors"
+            >
               <span>🤖</span>
               <span>AI 챗봇으로 질문</span>
-            </button>
+            </Link>
             <button 
               onClick={handleShare}
               className={`px-4 py-2 rounded-lg border flex items-center space-x-2 transition-all ${

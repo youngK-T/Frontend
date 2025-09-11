@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import MeetingCard from './MeetingCard'
 import { getMeetings } from '@/lib/meetings'
 
 export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
+  const router = useRouter()
   const [allMeetings, setAllMeetings] = useState([])
   const [filteredMeetings, setFilteredMeetings] = useState([])
   const [loading, setLoading] = useState(true)
@@ -120,9 +122,15 @@ export default function MeetingList({ searchQuery, sortOrder, selectedTags }) {
   // AI 분석 핸들러
   const handleAnalyze = () => {
     const selectedIds = Array.from(selectedMeetings)
+    if (selectedIds.length === 0) {
+      alert('분석할 회의를 선택해주세요.')
+      return
+    }
+    
     console.log('AI 분석 요청:', selectedIds)
-    // TODO: AI 분석 API 호출
-    alert(`선택된 ${selectedIds.length}개 회의록으로 AI 분석을 시작합니다.\n\nScript IDs: ${selectedIds.join(', ')}`)
+    // 다중 선택된 회의 ID들을 쿼리 파라미터로 전달하여 챗봇으로 이동
+    const queryParams = selectedIds.map(id => `script_ids=${encodeURIComponent(id)}`).join('&')
+    router.push(`/?${queryParams}`)
   }
 
   // 개별 회의 해제 핸들러

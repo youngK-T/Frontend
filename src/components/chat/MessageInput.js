@@ -19,7 +19,7 @@ export default function MessageInput({ onSubmit, loading }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="회의에 대해 질문해보세요..."
-        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
       />
       <button
         type="submit"
