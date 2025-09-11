@@ -104,8 +104,8 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
         {messages.map((m) => {
           if (m.role === 'system') {
             return (
-              <div key={m.id} className="bg-blue-50 border border-blue-100 rounded-2xl p-4">
-                <div className="text-sm font-semibold text-blue-700 mb-1">시스템</div>
+              <div key={m.id} className="bg-gray-50 border border-gray-100 rounded-2xl p-4">
+                <div className="text-sm font-semibold text-gray-700 mb-1">시스템</div>
                 <p className="text-gray-900">{m.content}</p>
               </div>
             );
@@ -113,7 +113,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
           if (m.role === 'user') {
             return (
               <div key={m.id} className="flex justify-end">
-                <div className="max-w-[80%] bg-blue-600 text-white rounded-2xl rounded-br-sm px-4 py-3 shadow whitespace-pre-wrap">
+                <div className="max-w-[80%] bg-gray-600 text-white rounded-2xl rounded-br-sm px-4 py-3 shadow whitespace-pre-wrap">
                   {m.content}
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
         {isLoading && (
           <div className="flex justify-start">
             <div className="bg-gray-100 border rounded-2xl rounded-bl-sm px-4 py-3 text-gray-700 text-sm flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
               <span>답변 생성 중...</span>
             </div>
           </div>
@@ -161,7 +161,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
       <div className="border-t border-gray-300 bg-white p-4">
         <MessageInput onSubmit={handleSend} loading={isLoading} />
         {selectedMeeting && (
-          <div className="text-xs text-blue-600 mt-2">
+          <div className="text-xs text-gray-600 mt-2">
             선택된 회의: {selectedMeeting.title}
             {selectedMeeting.script_ids && selectedMeeting.script_ids.length > 1 && (
               <div className="text-xs text-gray-500 mt-1">

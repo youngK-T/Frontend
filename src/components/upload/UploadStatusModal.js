@@ -11,17 +11,17 @@ export default function UploadStatusModal() {
 
   const getProgressColor = (stage) => {
     switch (stage) {
-      case 'completed': return 'text-green-600';
+      case 'completed': return 'text-gray-700';
       case 'error': return 'text-red-600';
-      default: return 'text-blue-600';
+      default: return 'text-gray-600';
     }
   };
 
   const getProgressBgColor = (stage) => {
     switch (stage) {
-      case 'completed': return 'bg-green-50 border-green-200';
+      case 'completed': return 'bg-gray-50 border-gray-200';
       case 'error': return 'bg-red-50 border-red-200';
-      default: return 'bg-blue-50 border-blue-200';
+      default: return 'bg-gray-50 border-gray-200';
     }
   };
 
@@ -35,7 +35,7 @@ export default function UploadStatusModal() {
               <span className="text-white text-sm font-medium">M</span>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 text-sm">세트파 분석 중</h3>
+              <h3 className="font-semibold text-gray-900 text-sm">셰르파 분석 중</h3>
               <p className="text-xs text-gray-600">Summit에서 처리 중</p>
             </div>
           </div>
@@ -64,7 +64,7 @@ export default function UploadStatusModal() {
             <div 
               className={`h-2 rounded-full transition-all duration-500 ${
                 uploadState.stage === 'error' ? 'bg-red-500' : 
-                uploadState.stage === 'completed' ? 'bg-green-500' : 'bg-blue-500'
+                uploadState.stage === 'completed' ? 'bg-gray-600' : 'bg-gray-500'
               }`}
               style={{ width: `${(uploadState.progress / 5) * 100}%` }}
             ></div>
@@ -77,9 +77,9 @@ export default function UploadStatusModal() {
           <div className="flex items-center space-x-2">
             {uploadState.progress >= 1 ? (
               uploadState.stage === 'uploading' && uploadState.progress === 1 ? (
-                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center">
                   <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
@@ -97,9 +97,9 @@ export default function UploadStatusModal() {
           <div className="flex items-center space-x-2">
             {uploadState.progress >= 2 ? (
               uploadState.stage === 'stt' && uploadState.progress === 2 ? (
-                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center">
                   <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
@@ -117,9 +117,9 @@ export default function UploadStatusModal() {
           <div className="flex items-center space-x-2">
             {uploadState.progress >= 3 ? (
               uploadState.stage === 'script' && uploadState.progress === 3 ? (
-                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center">
                   <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
@@ -137,9 +137,9 @@ export default function UploadStatusModal() {
           <div className="flex items-center space-x-2">
             {uploadState.progress >= 4 ? (
               uploadState.stage === 'analyzing' && uploadState.progress === 4 ? (
-                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center">
                   <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
@@ -156,7 +156,7 @@ export default function UploadStatusModal() {
           {/* Report 생성 */}
           <div className="flex items-center space-x-2">
             {uploadState.progress >= 5 ? (
-              <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+              <div className="w-4 h-4 bg-gray-600 rounded-full flex items-center justify-center">
                 <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
@@ -172,7 +172,7 @@ export default function UploadStatusModal() {
 
         {/* 상태 메시지 */}
         {uploadState.stage === 'completed' && (
-          <div className="mt-3 p-2 bg-green-100 rounded text-sm text-green-800">
+          <div className="mt-3 p-2 bg-gray-100 rounded text-sm text-gray-800">
             ✓ 회의 분석이 완료되었습니다! 3초 후 회의 목록으로 이동합니다.
           </div>
         )}

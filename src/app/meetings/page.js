@@ -74,7 +74,7 @@ export default function MeetingsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="제목, 내용, 참석자로 검색..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent text-gray-900 placeholder-gray-500"
                 />
                 <span className="absolute right-3 top-2.5 text-gray-400">🔍</span>
               </div>
@@ -82,7 +82,7 @@ export default function MeetingsPage() {
                 <select 
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white appearance-none pr-8 min-w-[120px]"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 text-gray-900 bg-white appearance-none pr-8 min-w-[120px]"
                   style={{
                     zIndex: 1002,
                     position: 'relative',
@@ -115,8 +115,8 @@ export default function MeetingsPage() {
                       onClick={() => toggleTag(tag)}
                       className={`px-3 py-1 text-sm rounded-full transition-colors ${
                         selectedTags.includes(tag)
-                          ? 'bg-blue-100 text-blue-800 border border-blue-300'
-                          : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                          ? 'bg-gray-200 text-gray-800 border border-gray-400'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                     >
                       {tag}
@@ -136,12 +136,12 @@ export default function MeetingsPage() {
                   {selectedTags.map((tag) => (
                     <span
                       key={tag}
-                      className="inline-flex items-center px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+                      className="inline-flex items-center px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded-full"
                     >
                       {tag}
                       <button
                         onClick={() => toggleTag(tag)}
-                        className="ml-1 text-blue-600 hover:text-blue-800"
+                        className="ml-1 text-gray-600 hover:text-gray-800"
                       >
                         ×
                       </button>
