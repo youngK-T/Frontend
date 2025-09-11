@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* 로고 및 서비스명 */}
           <div className="flex items-center space-x-3">
-            <Link href="/meetings" className="flex items-center space-x-3">
+            <Link href="/" className="flex items-center space-x-3">
               <Image 
                 src="/summit.png" 
                 alt="Summit Logo" 
