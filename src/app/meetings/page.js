@@ -1,12 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MeetingList from '@/components/meetings/MeetingList'
+import { getTags } from '@/lib/meetings/api'
 
 export default function MeetingsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [sortOrder, setSortOrder] = useState('날짜순')
   const [selectedTags, setSelectedTags] = useState([])
+  const [availableTags, setAvailableTags] = useState([])
+  const [tagsLoading, setTagsLoading] = useState(true)
+
+  // 태그 데이터 불러오기
+  useEffect(() => {
+    async function fetchTags() {
+      try {
+        setTagsLoading(true)
+        const tags = await getTags()
+        // 빈 태그나 의미없는 태그 제거
+        const filteredTags = tags.filter(tag => 
+          tag && 
+          tag.trim() !== '' && 
+          !tag.includes('내용 없음') && 
+          !tag.includes('미완성') && 
+          !tag.includes('미제공')
+        )
+        setAvailableTags(filteredTags)
+      } catch (error) {
+        console.error('Failed to fetch tags:', error)
+        // 에러 시 빈 배열로 설정
+        setAvailableTags([])
+      } finally {
+        setTagsLoading(false)
+      }
+    }
+
+    fetchTags()
+  }, [])
 
   // 태그 토글 함수
   const toggleTag = (tag) => {
@@ -81,19 +111,25 @@ export default function MeetingsPage() {
             <div className="flex items-center space-x-2 mb-4">
               <span className="text-sm text-gray-900 mr-2">🏷️ 태그 필터</span>
               <div className="flex flex-wrap gap-2">
-                {['제품개발', '로드맵', 'Q1', '우선순위', '마케팅', '전략', '분석', '예산', '스탠드업', '진행사항', '계획', '이슈', '성과', '리뷰', '분기', '목표', '고객', '피드백', 'UX', '개선', '기술', '아키텍처', '스택'].map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                      selectedTags.includes(tag)
-                        ? 'bg-blue-100 text-blue-800 border border-blue-300'
-                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                ))}
+                {tagsLoading ? (
+                  <span className="text-sm text-gray-500">태그를 불러오는 중...</span>
+                ) : availableTags.length > 0 ? (
+                  availableTags.map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className={`px-3 py-1 text-sm rounded-full transition-colors ${
+                        selectedTags.includes(tag)
+                          ? 'bg-blue-100 text-blue-800 border border-blue-300'
+                          : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      }`}
+                    >
+                      {tag}
+                    </button>
+                  ))
+                ) : (
+                  <span className="text-sm text-gray-500">사용 가능한 태그가 없습니다</span>
+                )}
               </div>
             </div>
             
