@@ -63,7 +63,7 @@ function ChatContent() {
     }
 
     fetchMeetingInfo();
-  }, [scriptId, scriptIds.join(',')]); // scriptIds 배열의 변화 감지
+  }, [allScriptIds.join(',')]); // allScriptIds 배열의 변화 감지
 
   return (
     <div className="min-h-screen bg-gray-50">
