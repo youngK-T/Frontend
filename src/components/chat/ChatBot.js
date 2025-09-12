@@ -33,7 +33,7 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
         content: '안녕하세요! 셰르파입니다. 회의에 대한 질문을 해주세요.',
       },
     ]);
-  }, [initialScriptIds.join(',')]); // 배열 내용이 변경되었는지 확인
+  }, [initialScriptIds]); // initialScriptIds 배열의 변화 감지
 
   // selectedMeeting이 변경될 때 시스템 메시지 업데이트
   useEffect(() => {

@@ -27,7 +27,7 @@ export default function EvidenceQuote({ quote, speaker, scriptId, meetingTitle, 
       {/* 인용문 */}
       <div className="mb-3">
         <blockquote className="text-gray-800 italic border-l-4 border-blue-300 pl-3 text-sm leading-relaxed">
-          "{quote}"
+          &ldquo;{quote}&rdquo;
         </blockquote>
       </div>
 
