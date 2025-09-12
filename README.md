@@ -153,9 +153,6 @@ NEXT_PUBLIC_CHAT_API_URL=https://your-chat-api-endpoint.com/api/chat/query
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
 
 ## 🆘 문제 해결
 
@@ -165,8 +162,3 @@ NEXT_PUBLIC_CHAT_API_URL=https://your-chat-api-endpoint.com/api/chat/query
 2. **API 연결 오류**: 환경 변수 설정 확인
 3. **스타일 문제**: Tailwind CSS 설정 및 캐시 확인
 
-### 개발 팁
-
-- 개발 중에는 `npm run dev`로 핫 리로드 활용
-- ESLint 규칙을 준수하여 코드 품질 유지
-- 컴포넌트 재사용성을 고려한 설계
