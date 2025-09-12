@@ -65,9 +65,7 @@ export function UploadProvider({ children }) {
 
       // 똑똑한 API URL 감지
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 
-        (typeof window !== 'undefined' && window.location.hostname !== 'localhost' 
-          ? `${window.location.protocol}//${window.location.hostname}` 
-          : 'https://scriptcreateservice06-a6buhjcfbnfbcuhz.koreacentral-01.azurewebsites.net');
+        'https://scriptcreateservice06-a6buhjcfbnfbcuhz.koreacentral-01.azurewebsites.net';
       
       console.log('🌐 API URL:', API_BASE_URL);
 
@@ -98,13 +96,21 @@ export function UploadProvider({ children }) {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
+        let errorText = '';
+        try {
+          errorText = await response.text();
+        } catch (textError) {
+          errorText = '응답 텍스트를 읽을 수 없습니다';
+          console.error('텍스트 읽기 오류:', textError);
+        }
+        
         console.error('❌ API 오류 응답:', {
           status: response.status,
           statusText: response.statusText,
           errorBody: errorText
         });
-        throw new Error(`업로드 실패: ${response.status} ${response.statusText} - ${errorText}`);
+        
+        throw new Error(`업로드 실패: ${response.status} ${response.statusText}${errorText ? ` - ${errorText}` : ''}`);
       }
 
       // 3단계: 스크립트 저장
@@ -121,7 +127,8 @@ export function UploadProvider({ children }) {
       console.log('✅ 업로드 성공:', {
         scriptId: result.script_id || result.id,
         title: result.title,
-        responseKeys: Object.keys(result)
+        responseKeys: Object.keys(result),
+        fullResult: result
       });
 
       // 4단계: ReportSource 생성
@@ -155,8 +162,15 @@ export function UploadProvider({ children }) {
       }, 3000);
 
     } catch (error) {
-      const currentProgress = uploadState.progress || 0;
-      const currentStage = uploadState.stage || 'unknown';
+      // 현재 상태를 함수형 업데이트로 안전하게 가져오기
+      let currentProgress = 0;
+      let currentStage = 'unknown';
+      
+      setUploadState(prev => {
+        currentProgress = prev.progress || 0;
+        currentStage = prev.stage || 'unknown';
+        return prev; // 상태 변경 없이 현재 상태만 읽기
+      });
       
       console.error('💥 업로드 중 오류 발생:', {
         stage: currentStage,
