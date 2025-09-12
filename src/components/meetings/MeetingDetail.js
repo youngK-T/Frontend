@@ -231,7 +231,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
               }`}
             >
               <span>{copySuccess ? '✓' : '🔗'}</span>
-              <span>{copySuccess ? '복사됨!' : '공유'}</span>
+              <span>{copySuccess ? '복사됨!' : '복사'}</span>
             </button>
             <button 
               onClick={handleDownload}
@@ -361,7 +361,7 @@ ${scriptData.segments.map(segment => `[${segment.speaker}] ${segment.text}`).joi
                 <h3 className="text-lg font-semibold text-gray-900">회의록</h3>
                 <button 
                   onClick={() => setIsEditModalOpen(true)}
-                  className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 flex items-center space-x-2 text-sm"
+                  className="bg-emerald-500/90 text-white px-3 py-2 rounded-lg hover:bg-emerald-600/90 flex items-center space-x-2 text-sm"
                 >
                   <span>✏️</span>
                   <span>수정</span>

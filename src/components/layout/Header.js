@@ -2,8 +2,19 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const handleChatClick = (e) => {
+    // 현재 chat 페이지에 있다면 페이지를 새로고침하여 초기화
+    if (pathname === '/chat') {
+      e.preventDefault();
+      window.location.href = '/chat';
+    }
+  };
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,6 +43,7 @@ export default function Header() {
             </Link>
             <Link 
               href="/chat"
+              onClick={handleChatClick}
               className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 flex items-center space-x-2 transition-colors"
             >
               <span>🤖</span>
