@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import MessageInput from './MessageInput';
+import EvidenceQuote from './EvidenceQuote';
 
 const DEFAULT_API_URL =
   process.env.NEXT_PUBLIC_CHAT_API_URL ||
@@ -17,13 +18,13 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedScriptIds, setSelectedScriptIds] = useState(initialScriptIds); // 외부에서 전달받은 script_ids 사용
-  const [usedScriptIds, setUsedScriptIds] = useState([]);
+  const [expandedEvidence, setExpandedEvidence] = useState({}); // 확장된 근거 자료 관리
   const scrollRef = useRef(null);
 
   // initialScriptIds가 변경될 때 챗봇 초기화
   useEffect(() => {
     setSelectedScriptIds(initialScriptIds);
-    setUsedScriptIds([]);
+    setExpandedEvidence({}); // 확장 상태 초기화
     // 메시지를 초기 시스템 메시지만 남기고 초기화
     setMessages([
       {
@@ -103,7 +104,6 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
           memoryContext: data?.memory_context,
         },
       ]);
-      setUsedScriptIds(Array.isArray(data?.used_script_ids) ? data.used_script_ids : []);
       scrollToBottom();
     } catch (err) {
       setMessages((prev) => [
@@ -138,22 +138,73 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
           }
           if (m.role === 'assistant') {
             return (
-              <div key={m.id} className="flex flex-col items-start space-y-2">
-                <div className="max-w-[80%] bg-sky-50 rounded-2xl rounded-bl-sm px-5 py-4 whitespace-pre-wrap text-sky-900 shadow-sm">
+              <div key={m.id} className="flex flex-col items-start space-y-3 w-full">
+                {/* 메인 답변 */}
+                <div className="max-w-[85%] bg-sky-50 rounded-2xl rounded-bl-sm px-5 py-4 whitespace-pre-wrap text-sky-900 shadow-sm">
                   {m.content}
                 </div>
-                {(m.sources?.length ?? 0) > 0 && (
-                  <div className="max-w-[80%] text-xs text-gray-600 space-y-1">
-                    <div className="font-medium">참고 소스</div>
-                    <ul className="list-disc pl-4">
-                      {m.sources.slice(0, 5).map((s, i) => (
-                        <li key={i}>
-                          {s.meeting_title || '회의'} ({s.meeting_date || '날짜 미상'}) - 스크립트 {s.script_id} - 관련도 {s.relevance_score}
-                        </li>
-                      ))}
-                    </ul>
+
+                {/* 신뢰도 점수 */}
+                {m.confidenceScore && (
+                  <div className="text-xs text-gray-600 flex items-center space-x-1">
+                    <span className="font-medium">신뢰도:</span>
+                    <span className={`px-2 py-1 rounded ${
+                      m.confidenceScore >= 0.8 ? 'bg-green-100 text-green-800' :
+                      m.confidenceScore >= 0.6 ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {(m.confidenceScore * 100).toFixed(1)}%
+                    </span>
                   </div>
                 )}
+
+                {/* Evidence Quotes - 배열이 존재하고 비어있지 않은 경우만 표시 */}
+                {Array.isArray(m.evidenceQuotes) && m.evidenceQuotes.length > 0 && (
+                  <div className="max-w-[90%] space-y-2">
+                    <div className="text-sm font-medium text-gray-700 mb-2">📝 근거 자료</div>
+                    <div className="space-y-2">
+                      {(() => {
+                        const isExpanded = expandedEvidence[m.id];
+                        const displayCount = isExpanded ? m.evidenceQuotes.length : Math.min(3, m.evidenceQuotes.length);
+                        
+                        return (
+                          <>
+                            {m.evidenceQuotes.slice(0, displayCount).map((evidence, i) => (
+                              <EvidenceQuote
+                                key={i}
+                                quote={evidence.quote}
+                                speaker={evidence.speaker}
+                                scriptId={evidence.script_id}
+                                meetingTitle={evidence.meeting_title}
+                                meetingDate={evidence.meeting_date}
+                                chunkIndex={evidence.chunk_index}
+                                relevanceScore={evidence.relevance_score}
+                              />
+                            ))}
+                            {m.evidenceQuotes.length > 3 && (
+                              <div className="text-center py-2">
+                                <button
+                                  onClick={() => setExpandedEvidence(prev => ({
+                                    ...prev,
+                                    [m.id]: !prev[m.id]
+                                  }))}
+                                  className="text-xs text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                                >
+                                  {isExpanded 
+                                    ? '접기' 
+                                    : `더보기 (${m.evidenceQuotes.length - 3}개 더)`
+                                  }
+                                </button>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                )}
+
+
               </div>
             );
           }
@@ -177,21 +228,6 @@ export default function ChatBot({ initialScriptIds = [], selectedMeeting = null 
 
       <div className="border-t border-gray-300 bg-white p-4">
         <MessageInput onSubmit={handleSend} loading={isLoading} />
-        {selectedMeeting && (
-          <div className="text-xs text-blue-600 mt-2">
-            선택된 회의: {selectedMeeting.title}
-            {selectedMeeting.script_ids && selectedMeeting.script_ids.length > 1 && (
-              <div className="text-xs text-gray-500 mt-1">
-                회의 ID: {selectedMeeting.script_ids.join(', ')}
-              </div>
-            )}
-          </div>
-        )}
-        {usedScriptIds.length > 0 && (
-          <div className="text-xs text-gray-500 mt-1">
-            사용된 스크립트 IDs: {usedScriptIds.join(', ')}
-          </div>
-        )}
       </div>
     </div>
   );
